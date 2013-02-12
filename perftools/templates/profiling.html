@@ -1,31 +1,58 @@
 <html>
 <head>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">    
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
+    
     <style>
-    input[type="text"] {
-        width: 200px;
-    }
-    .green {
-        color: #419E3E;
-    }
-    .red {
-        color: #D11D3C;
-    }
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            padding: 30px;
+        }
+        label {
+            font-weight: bold;
+        }
+        span.helptext {
+            display: block;
+            font-size: 0.85em;
+            color: #999;
+            padding-left: 5px;
+        }
+        input[type="text"] {
+            width: 200px;
+        }
+        .green {
+            color: #419E3E;
+        }
+        .red {
+            color: #D11D3C;
+        }
     </style>
 </head>
 <body>
-    <h1>Profiling Switchboard</h1>
-    <h2 class="{% if profiling_on %}green{% else %}red{% endif %}">{{ status }}</h2>
-    <p>
-        Syntax for the cache key is djnago_profiling_{REMOTE_ADDR}_{REMOTE_HOST}
-        where {REMOTE_ADDR} and {REMOTE_HOST} are replaced by the values sent by
-        your client in the request header. They have been guessed automatically
-        for your current user agent.
-    </p>
+    <div class="container">
+        <div class="row">
+            <h1>Profiling Switchboard</h1>
+            <h2 class="{% if profiling_on %}green{% else %}red{% endif %}">{{ status }}</h2>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <p>
+                    Syntax for the cache key is <code>djnago_profiling_{REMOTE_ADDR}_{REMOTE_HOST}</code>
+                    where <code>{REMOTE_ADDR}</code> and <code>{REMOTE_HOST}</code> are replaced by the values sent by
+                    your client in the request header. They have been guessed automatically
+                    for your current host.
+                </p>
 
-    <form action="{% url profiling %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type='submit' value='Submit' />
-    </form>
+                <form action="{% url profiling %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type='submit' value='Submit' />
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
