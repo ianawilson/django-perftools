@@ -3,10 +3,12 @@ from datetime import timedelta
 from django.shortcuts import render
 from django.core.cache import cache
 from django.utils.timezone import now
+from django.contrib.auth.decorators import login_required
 
 from .utils import get_cache_key
 from .forms import ProfilingForm
 
+@login_required
 def profiling(request):
     current_time = now()
     status = ''
