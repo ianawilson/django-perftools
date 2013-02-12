@@ -16,7 +16,7 @@ setup(
     description = '',
     packages=find_packages(exclude=["tests"]),
     zip_safe=False,
-    install_requires=[],
+    install_requires=['simplejson'],
     license='Apache License 2.0',
     tests_require=tests_require,
     extras_require={'test': tests_require},
