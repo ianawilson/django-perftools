@@ -19,3 +19,16 @@ def get_culprit(frames, modules=[]):
             break
 
     return best_guess
+
+def get_cache_key(environ):
+    prefix = 'django_profiling_' 
+    key = prefix
+    if 'REMOTE_ADDR' in environ:
+        key += environ['REMOTE_ADDR']
+    if 'REMOTE_HOST' in environ:
+        key += environ['REMOTE_HOST']
+
+    # if we weren't able to make a unique key, give up
+    if key == prefix:
+        return None
+    return key

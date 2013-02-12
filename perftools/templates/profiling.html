@@ -1,0 +1,31 @@
+<html>
+<head>
+    <style>
+    input[type="text"] {
+        width: 200px;
+    }
+    .green {
+        color: #419E3E;
+    }
+    .red {
+        color: #D11D3C;
+    }
+    </style>
+</head>
+<body>
+    <h1>Profiling Switchboard</h1>
+    <h2 class="{% if profiling_on %}green{% else %}red{% endif %}">{{ status }}</h2>
+    <p>
+        Syntax for the cache key is djnago_profiling_{REMOTE_ADDR}_{REMOTE_HOST}
+        where {REMOTE_ADDR} and {REMOTE_HOST} are replaced by the values sent by
+        your client in the request header. They have been guessed automatically
+        for your current user agent.
+    </p>
+
+    <form action="{% url profiling %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type='submit' value='Submit' />
+    </form>
+</body>
+</html>

@@ -15,7 +15,7 @@ import thread
 import time
 
 from perftools.middleware import Base
-
+from perftools.utils import get_cache_key
 
 class RemoteProfilingMiddleware(Base):
     logger = logging.getLogger(__name__)
@@ -25,6 +25,7 @@ class RemoteProfilingMiddleware(Base):
         self.outpath = outpath
         self.threshold = threshold
         self.hostname = socket.gethostname()
+        self.reqnum = 0
         super(RemoteProfilingMiddleware, self).__init__(application, **kwargs)
 
     def __call__(self, environ, start_response):
@@ -65,3 +66,15 @@ class RemoteProfilingMiddleware(Base):
                 'thread_ident': thread_ident,
                 'hostname': self.hostname,
             }, indent=2))
+
+# middleware that is managed with the admin switchboard
+class ManagedProfilingMiddleware(RemoteProfilingMiddleware):
+    def should_run(self, environ):
+        cache_key = get_cache_key(environ)
+        
+        from django.core.cache import cache
+        
+        # if an entry exists for our cache key, then we should run
+        if cache.get(cache_key):
+            return True
+        return False

@@ -29,4 +29,5 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Software Development'
     ],
+    package_data={'perftools': ['templates/*.html']},
 )
